@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'io.quarkus' version '2.8.1.Final'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation enforcedPlatform('io.quarkus.platform:quarkus-bom:2.8.1.Final')
+    implementation 'io.quarkus:quarkus-amazon-sqs'
+    implementation 'io.quarkus:quarkus-hibernate-reactive-panache'
+    implementation 'io.quarkus:quarkus-reactive-pg-client'
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'org.apache.camel:camel-aws2-sqs:3.16.0'
+    implementation 'org.apache.camel.quarkus:camel-quarkus-smallrye-reactive-messaging:2.8.0'
+
+    implementation 'software.amazon.awssdk:url-connection-client:2.17.165'
+
+    // -- Test dependencies
+    testImplementation 'com.amazonaws:aws-java-sdk-sqs:1.12.196'
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+
+    testImplementation platform('org.testcontainers:testcontainers-bom:1.16.3')
+    testImplementation 'org.testcontainers:testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:localstack'
+
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    testLogging.showStandardStreams = true
+}

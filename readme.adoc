@@ -1,0 +1,44 @@
+= Sample for reproducing
+:source-highlighter: highlightjs
+:highlightjs-theme: zenburn
+
+*How to run*:
+
+[source, bash]
+----
+$ ./gradlew :test --tests "sample.ConsumerTest"
+----
+
+The tests will fail (bug reproduced) when using Quarkus 2.7.1 or greater (up to 2.8.1).
+
+*_Downgrading to Quarkus 2.7.0 makes both test pass._*
+
+NOTE: Tests will be slow as they have to wait for the timeout to happen. Also, they use localstack (AWS) so the first time the respective docker image has to be downloaded.
+
+*test_consume failure*:
+
+[source]
+----
+io.smallrye.reactive.messaging.providers.SubscriberMediator reportFailure
+ERROR: SRMSG00201: Error caught while processing a message
+io.vertx.core.impl.NoStackTraceThrowable: Timeout
+
+io.smallrye.reactive.messaging.providers.SubscriberMediator$1 onError
+ERROR: SRMSG00201: Error caught while processing a message
+io.vertx.core.impl.NoStackTraceThrowable: Timeout
+----
+
+*test_consumeUsingSession failure*:
+
+[source]
+----
+Caused by: java.lang.IllegalStateException: The current operation requires a safe (isolated) Vert.x sub-context, but the current context hasn't been flagged as such. You can still use Hibernate Reactive, you just need to avoid using the methods which implicitly require accessing the stateful context, such as MutinySessionFactory#withTransaction and #withSession.
+	at io.quarkus.vertx.core.runtime.context.VertxContextSafetyToggle.checkIsSafe(VertxContextSafetyToggle.java:80)
+	at io.quarkus.vertx.core.runtime.context.VertxContextSafetyToggle.validateContextIfExists(VertxContextSafetyToggle.java:63)
+	at io.quarkus.hibernate.reactive.runtime.customized.CheckingVertxContext.put(CheckingVertxContext.java:40)
+	at org.hibernate.reactive.mutiny.impl.MutinySessionFactoryImpl.lambda$withSession$17(MutinySessionFactoryImpl.java:251)
+	at io.smallrye.mutiny.groups.UniOnItem.lambda$invoke$0(UniOnItem.java:59)
+	at io.smallrye.context.impl.wrappers.SlowContextualConsumer.accept(SlowContextualConsumer.java:21)
+	at io.smallrye.mutiny.operators.uni.UniOnItemConsume$UniOnItemComsumeProcessor.invokeEventHandler(UniOnItemConsume.java:77)
+	... 121 more
+----

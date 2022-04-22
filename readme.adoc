@@ -2,6 +2,9 @@
 :source-highlighter: highlightjs
 :highlightjs-theme: zenburn
 
+*Requirement*:
+This sample uses Testcontainers, so it will need a local docker instance running.
+
 *How to run*:
 
 [source, bash]

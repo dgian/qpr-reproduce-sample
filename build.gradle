@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'io.quarkus' version '2.8.1.Final'
+    id 'io.quarkus' version '2.8.2.Final'
 }
 
 repositories {
@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation enforcedPlatform('io.quarkus.platform:quarkus-bom:2.8.1.Final')
+    implementation enforcedPlatform('io.quarkus.platform:quarkus-bom:2.8.2.Final')
     implementation 'io.quarkus:quarkus-amazon-sqs'
     implementation 'io.quarkus:quarkus-hibernate-reactive-panache'
     implementation 'io.quarkus:quarkus-reactive-pg-client'

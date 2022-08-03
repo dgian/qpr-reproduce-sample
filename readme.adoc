@@ -6,8 +6,6 @@
 *Requirement*:
 This sample uses Testcontainers, so it will need a local docker instance running.
 
-icon:rocket[]
-
 *How to run*:
 
 [source, bash]
